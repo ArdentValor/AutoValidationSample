@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:custom="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:divider="?android:attr/listDivider"
+              android:orientation="vertical"
+              android:showDividers="middle">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:text="Fill out the form fields then press submit at the bottom."
+                android:textSize="24dp"/>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/FirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Must be a valid name"
+                custom:hint_text="First Name"
+                custom:input_type="NAME">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/LastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Must be a valid name"
+                custom:hint_text="Last Name"
+                custom:input_type="NAME">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/Address1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Must be a valid street address"
+                custom:hint_text="Street Address"
+                custom:input_type="ADDRESS">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/Address2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Must a valid city, state and zip"
+                custom:hint_text="City, state, and zip"
+                custom:input_type="ADDRESS">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/Phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Must a valid phone number"
+                custom:hint_text="Phone Number"
+                custom:input_type="PHONE">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/Social"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Must be a valid social security number."
+                custom:hint_text="Social Security Number"
+                custom:input_type="SSN">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/Password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Password must contain uppper, lowwer, numeric, and be 8 or more characters in length."
+                custom:hint_text="Password"
+                custom:input_type="PASSWORD">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/PasswordVerify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Both passwords must match"
+                custom:hint_text="Verify Password"
+                custom:input_type="PASSWORD">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <Button
+                android:id="@+id/SubmitButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

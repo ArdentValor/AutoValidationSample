@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AutoValidationEditText">
+        <attr name="hint_text" format="string" />
+        <attr name="error_text" format="string" />
+        <attr name="input_type" format="string" />
+    </declare-styleable>
+</resources>
