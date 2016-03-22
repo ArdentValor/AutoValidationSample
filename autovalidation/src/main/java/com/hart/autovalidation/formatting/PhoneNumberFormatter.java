@@ -45,6 +45,8 @@ public class PhoneNumberFormatter extends FormattingKey
             result += raw[i];
         }
 
+        result = (result.length() > 14) ? result.substring(0, 14) : result;
+
         return (leadingOne) ? ("1 " + result) : result;
     }
 

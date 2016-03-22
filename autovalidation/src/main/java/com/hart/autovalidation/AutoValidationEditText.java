@@ -1,5 +1,6 @@
 package com.hart.autovalidation;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
@@ -43,12 +44,15 @@ public class AutoValidationEditText extends LinearLayout
     private CheckBox show;
     private TextView errorTextView;
 
+    private AutoValidationEditText verifyLink;
+
     private static final String NAME = "NAME";
     private static final String ADDRESS = "ADDRESS";
     private static final String PHONE = "PHONE";
     private static final String SSN = "SSN";
     private static final String EMAIL = "EMAIL";
     private static final String PASSWORD = "PASSWORD";
+    private static final String PASSWORD_VERIFY = "PASSWORD_VERIFY";
     private String inputType;
 
     private ValidationKey validationKey;
@@ -62,7 +66,40 @@ public class AutoValidationEditText extends LinearLayout
         String hintText = a.getString(R.styleable.AutoValidationEditText_hint_text);
         final String errorText = a.getString(R.styleable.AutoValidationEditText_error_text);
         inputType = a.getString(R.styleable.AutoValidationEditText_input_type);
+        final int ref = a.getResourceId(R.styleable.AutoValidationEditText_verify_link, 0);
+
         a.recycle();
+
+        if (inputType.equals(PASSWORD_VERIFY))
+        {
+            // use delayed runnable to avoid null pointer caused by inflation time
+            postDelayed(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    verifyLink = (AutoValidationEditText) ((Activity) context).findViewById(ref);
+                    verifyLink.show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+                    {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                        {
+                            if (isChecked)
+                            {
+                                editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                                verifyLink.editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                            }
+                            else
+                            {
+                                editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                verifyLink.editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            }
+                        }
+                    });
+                    // todo consider using an interface to handle events between the two password field objects
+                }
+            }, 40);
+        }
 
         setOrientation(LinearLayout.VERTICAL);
 
@@ -113,42 +150,46 @@ public class AutoValidationEditText extends LinearLayout
         });
 
         editText.addTextChangedListener(textWatcher);
-        editText.setOnKeyListener(new OnKeyListener()
+
+        if (inputType.equals(PHONE))
         {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event)
+            editText.setOnKeyListener(new OnKeyListener()
             {
-                if (keyCode == KeyEvent.KEYCODE_DEL)
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event)
                 {
-                    editText.removeTextChangedListener(textWatcher);
-                    String current = editText.getText().toString();
-                    if (current.length() >= 1)
+                    if (keyCode == KeyEvent.KEYCODE_DEL)
                     {
-                        editText.setText(current.substring(0, current.length() - 1));
-                    }
-                    else
-                    {
-                        editText.setText("");
-                    }
+                        editText.removeTextChangedListener(textWatcher);
+                        String current = editText.getText().toString();
+                        if (current.length() >= 1)
+                        {
+                            editText.setText(current.substring(0, current.length() - 1));
+                        }
+                        else
+                        {
+                            editText.setText("");
+                        }
 
-                    ValidationResponse response = validationKey.isValid(getString());
+                        ValidationResponse response = validationKey.isValid(getString());
 
-                    if (response.isValid)
-                    {
-                        setErrorVisible(getContext(), false);
-                    }
-                    else
-                    {
-                        setErrorVisible(getContext(), true);
-                    }
+                        if (response.isValid)
+                        {
+                            setErrorVisible(getContext(), false);
+                        }
+                        else
+                        {
+                            setErrorVisible(getContext(), true);
+                        }
 
-                    editText.setSelection(editText.getText().length());
-                    editText.addTextChangedListener(textWatcher);
-                    return true;
+                        editText.setSelection(editText.getText().length());
+                        editText.addTextChangedListener(textWatcher);
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
     }
 
     private TextWatcher textWatcher = new TextWatcher()
@@ -162,7 +203,7 @@ public class AutoValidationEditText extends LinearLayout
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count)
         {
-            setErrorVisible(getContext(), !isValid());
+            //setErrorVisible(getContext(), !isValid());
         }
 
         @Override
@@ -202,6 +243,7 @@ public class AutoValidationEditText extends LinearLayout
                 formattingKey = new EmailFormatter();
                 break;
             case PASSWORD:
+            case PASSWORD_VERIFY:
                 editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 validationKey = new PasswordValidation();
                 formattingKey = new PasswordFormatter();
@@ -239,6 +281,12 @@ public class AutoValidationEditText extends LinearLayout
                 editText.setText(formattingKey.formatForDisplay(raw));
                 editText.setSelection(editText.getText().length());
                 editText.addTextChangedListener(textWatcher);
+                break;
+            case PASSWORD_VERIFY:
+                // handle verification requirements
+                String expected = verifyLink.getString();
+                String actual = getString();
+                response.isValid = expected.equals(actual);
                 break;
         }
 

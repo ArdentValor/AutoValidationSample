@@ -22,6 +22,6 @@ public class SSNValidation extends ValidationKey
             response.isValid = false;
             response.responses.add("invalid address");
         }
-        return null;
+        return response;
     }
 }

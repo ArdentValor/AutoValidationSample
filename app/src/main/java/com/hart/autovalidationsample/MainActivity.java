@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.hart.autovalidation.AutoValidationEditText;
-import com.hart.autovalidation.ValidationUtils;
 
 public class MainActivity extends Activity
 {
@@ -42,7 +41,7 @@ public class MainActivity extends Activity
                 && phoneNumber.isValid()
                 && social.isValid()
                 && password.isValid()
-                && ValidationUtils.verifyMatch(password.getString(), passwordVerify.getString()));
+                && passwordVerify.isValid());
 
                 String message = (allValid) ? "all fields are valid" : "not all fields are valid";
 

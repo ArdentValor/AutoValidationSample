@@ -1,7 +1,5 @@
 package com.hart.autovalidation.validation;
 
-import android.util.Log;
-
 import com.hart.autovalidation.ValidationResponse;
 
 /**
@@ -13,7 +11,6 @@ public class PhoneNumberValidation extends ValidationKey
     @Override
     public ValidationResponse isValid(String raw)
     {
-        Log.i("PNV", "PNV CALLED!!!");
         ValidationResponse response = new ValidationResponse();
         response.isValid = isValidNumber(raw);
         response.responses.add((response.isValid) ? "valid number" : "please provide a valid 10 digit number");
@@ -34,7 +31,6 @@ public class PhoneNumberValidation extends ValidationKey
                 result += split[i];
             }
         }
-        Log.i("PHONE FORMATER", "len " + result.length());
         // ensure that it is a 10 digit number
         return ((result.length() == 10  && !result.substring(0,1).equals("1")) || (result.length() == 11  && result.substring(0,1).equals("1")));
     }
