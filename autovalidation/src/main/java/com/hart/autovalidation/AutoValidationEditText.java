@@ -151,7 +151,7 @@ public class AutoValidationEditText extends LinearLayout
 
         editText.addTextChangedListener(textWatcher);
 
-        if (inputType.equals(PHONE))
+        if (inputType.equals(PHONE) || inputType.equals(SSN))
         {
             editText.setOnKeyListener(new OnKeyListener()
             {
@@ -287,6 +287,13 @@ public class AutoValidationEditText extends LinearLayout
                 String expected = verifyLink.getString();
                 String actual = getString();
                 response.isValid = expected.equals(actual);
+                break;
+            case SSN:
+                // handle formatting requirements
+                editText.removeTextChangedListener(textWatcher);
+                editText.setText(formattingKey.formatForDisplay(raw));
+                editText.setSelection(editText.getText().length());
+                editText.addTextChangedListener(textWatcher);
                 break;
         }
 
