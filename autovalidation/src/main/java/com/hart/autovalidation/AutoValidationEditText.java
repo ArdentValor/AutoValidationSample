@@ -53,6 +53,11 @@ public class AutoValidationEditText extends LinearLayout
     private static final String EMAIL = "EMAIL";
     private static final String PASSWORD = "PASSWORD";
     private static final String PASSWORD_VERIFY = "PASSWORD_VERIFY";
+    private static final String CITY = "CITY";
+    private static final String STATE = "STATE";
+    private static final String ZIP = "ZIP";
+    private static final String COUNTRY = "COUNTRY";
+
     private String inputType;
 
     private ValidationKey validationKey;
@@ -203,7 +208,7 @@ public class AutoValidationEditText extends LinearLayout
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count)
         {
-            //setErrorVisible(getContext(), !isValid());
+            setErrorVisible(getContext(), !isValid());
         }
 
         @Override
@@ -296,7 +301,6 @@ public class AutoValidationEditText extends LinearLayout
                 editText.addTextChangedListener(textWatcher);
                 break;
         }
-
 
         return (response != null && response.isValid);
     }

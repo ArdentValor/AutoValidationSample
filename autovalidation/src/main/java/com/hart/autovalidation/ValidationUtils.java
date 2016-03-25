@@ -1,5 +1,7 @@
 package com.hart.autovalidation;
 
+import com.hart.autovalidation.configuration.PasswordConfig;
+
 import java.util.ArrayList;
 
 /**

@@ -1,6 +1,7 @@
 package com.hart.autovalidation.formatting;
 
-import android.util.Log;
+import com.hart.autovalidation.configuration.ConfigManager;
+import com.hart.autovalidation.configuration.SSNConfig;
 
 /**
  * Created by Alex on 3/21/16.
@@ -8,25 +9,27 @@ import android.util.Log;
  */
 public class SSNFormatter extends FormattingKey
 {
-    private static final int LAST_FOUR = 0;
-    private static final int FULL_NUMBER = 1;
-    private int formatConfig = 1;
-
+    private SSNConfig ssnConfig = null;
 
     @Override
     public String formatForDisplay(String raw)
     {
-        Log.i("SSN", raw);
+        if (ssnConfig == null)
+        {
+            ssnConfig = ConfigManager.getSSNConfig();
+        }
+
+
         raw = raw.replace("-", "");
 
-        if (formatConfig == LAST_FOUR)
+        if (ssnConfig.formatConfig == ssnConfig.LAST_FOUR)
         {
             if (raw.length() >= 4)
             {
                 raw = raw.substring(0, 4);
             }
         }
-        else if (formatConfig == FULL_NUMBER)
+        else if (ssnConfig.formatConfig == ssnConfig.FULL_NUMBER)
         {
             if (raw.length() < 3)
             {

@@ -1,6 +1,7 @@
 package com.hart.autovalidation.validation;
 
-import com.hart.autovalidation.PasswordConfig;
+import com.hart.autovalidation.configuration.ConfigManager;
+import com.hart.autovalidation.configuration.PasswordConfig;
 import com.hart.autovalidation.ValidationResponse;
 
 /**
@@ -20,14 +21,14 @@ public class PasswordValidation extends ValidationKey
     private static final String PASSWORD_ERROR_4 = "password must contain at least one uppercase character";
     private static final String PASSWORD_ERROR_5 = "password must contain at least one special character";
     private static final String PASSWORD_IS_VALID = "password is valid";
-    private PasswordConfig passwordConfig;
+    private PasswordConfig passwordConfig = null;
 
     @Override
     public ValidationResponse isValid(String password)
     {
         if (passwordConfig == null)
         {
-            setPasswordConfig(new PasswordConfig());
+            passwordConfig = ConfigManager.getPasswordConfig();
         }
 
         ValidationResponse response = new ValidationResponse();
@@ -108,10 +109,5 @@ public class PasswordValidation extends ValidationKey
     public static boolean verifyMatch(String password1, String password2)
     {
         return password1.equals(password2);
-    }
-
-    public void setPasswordConfig(PasswordConfig config)
-    {
-        passwordConfig = config;
     }
 }

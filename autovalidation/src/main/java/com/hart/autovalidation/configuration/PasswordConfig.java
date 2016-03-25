@@ -1,4 +1,4 @@
-package com.hart.autovalidation;
+package com.hart.autovalidation.configuration;
 
 /**
  * Created by Alex on 3/17/16.
