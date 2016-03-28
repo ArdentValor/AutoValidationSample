@@ -26,6 +26,7 @@ public class MainActivity extends Activity
         final AutoValidationEditText social = (AutoValidationEditText) findViewById(R.id.Social);
         final AutoValidationEditText password = (AutoValidationEditText) findViewById(R.id.Password);
         final AutoValidationEditText passwordVerify = (AutoValidationEditText) findViewById(R.id.PasswordVerify);
+        
 
         Button submit = (Button) findViewById(R.id.SubmitButton);
 

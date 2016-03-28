@@ -4,6 +4,7 @@
         <attr name="hint_text" format="string" />
         <attr name="error_text" format="string" />
         <attr name="input_type" format="string" />
-        <attr name="verify_link" format="reference" />
+        <attr name="verify_link" format="reference"/>
+        <attr name="required" format="boolean"/>
     </declare-styleable>
 </resources>

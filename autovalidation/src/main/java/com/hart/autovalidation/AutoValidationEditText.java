@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
@@ -19,19 +20,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hart.autovalidation.formatting.AddressFormatter;
+import com.hart.autovalidation.formatting.CityFormatter;
+import com.hart.autovalidation.formatting.CountryFormatter;
 import com.hart.autovalidation.formatting.EmailFormatter;
 import com.hart.autovalidation.formatting.FormattingKey;
 import com.hart.autovalidation.formatting.NameFormatter;
 import com.hart.autovalidation.formatting.PasswordFormatter;
 import com.hart.autovalidation.formatting.PhoneNumberFormatter;
 import com.hart.autovalidation.formatting.SSNFormatter;
+import com.hart.autovalidation.formatting.StateFormatter;
+import com.hart.autovalidation.formatting.ZipFormatter;
 import com.hart.autovalidation.validation.AddressValidation;
+import com.hart.autovalidation.validation.CityValidation;
+import com.hart.autovalidation.validation.CountryValidation;
 import com.hart.autovalidation.validation.EmailValidation;
 import com.hart.autovalidation.validation.NameValidation;
 import com.hart.autovalidation.validation.PasswordValidation;
 import com.hart.autovalidation.validation.PhoneNumberValidation;
 import com.hart.autovalidation.validation.SSNValidation;
+import com.hart.autovalidation.validation.StateValidation;
 import com.hart.autovalidation.validation.ValidationKey;
+import com.hart.autovalidation.validation.ZipValidation;
 
 /**
  * Created by Alex on 3/16/16.
@@ -62,6 +71,9 @@ public class AutoValidationEditText extends LinearLayout
 
     private ValidationKey validationKey;
     private FormattingKey formattingKey;
+    private TextInputLayout materialWrapper;
+
+    private boolean isRequired;
 
     public AutoValidationEditText(final Context context, AttributeSet attrs)
     {
@@ -72,6 +84,7 @@ public class AutoValidationEditText extends LinearLayout
         final String errorText = a.getString(R.styleable.AutoValidationEditText_error_text);
         inputType = a.getString(R.styleable.AutoValidationEditText_input_type);
         final int ref = a.getResourceId(R.styleable.AutoValidationEditText_verify_link, 0);
+        isRequired = a.getBoolean(R.styleable.AutoValidationEditText_required, true);
 
         a.recycle();
 
@@ -115,7 +128,10 @@ public class AutoValidationEditText extends LinearLayout
         errorLayout = (LinearLayout) v.findViewById(R.id.layout_error);
         errorTextView = (TextView) v.findViewById(R.id.error_text);
 
-        editText.setHint(hintText);
+        materialWrapper = (TextInputLayout) findViewById(R.id.text_input_layout);
+
+        setHint(hintText);
+
 
         if (inputType.equals(PASSWORD))
         {
@@ -208,7 +224,7 @@ public class AutoValidationEditText extends LinearLayout
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count)
         {
-            setErrorVisible(getContext(), !isValid());
+            //setErrorVisible(getContext(), !isValid());
         }
 
         @Override
@@ -253,6 +269,26 @@ public class AutoValidationEditText extends LinearLayout
                 validationKey = new PasswordValidation();
                 formattingKey = new PasswordFormatter();
                 break;
+            case CITY:
+                editText.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+                validationKey = new CityValidation();
+                formattingKey = new CityFormatter();
+                break;
+            case STATE:
+                editText.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+                validationKey = new StateValidation();
+                formattingKey = new StateFormatter();
+                break;
+            case ZIP:
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                validationKey = new ZipValidation();
+                formattingKey = new ZipFormatter();
+                break;
+            case COUNTRY:
+                editText.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+                validationKey = new CountryValidation();
+                formattingKey = new CountryFormatter();
+                break;
         }
     }
 
@@ -260,10 +296,12 @@ public class AutoValidationEditText extends LinearLayout
     {
         if (validate(editText.getText().toString()))
         {
+            setErrorVisible(getContext(), true);
             return true;
         }
         else
         {
+            setErrorVisible(getContext(), false);
             return false;
         }
     }
@@ -275,9 +313,13 @@ public class AutoValidationEditText extends LinearLayout
         switch (inputType)
         {
             case NAME:
-                // nothing special
-                break;
             case PASSWORD:
+            case CITY:
+            case COUNTRY:
+            case ZIP:
+            case STATE:
+            case EMAIL:
+            case ADDRESS:
                 // nothing special
                 break;
             case PHONE:
@@ -286,6 +328,7 @@ public class AutoValidationEditText extends LinearLayout
                 editText.setText(formattingKey.formatForDisplay(raw));
                 editText.setSelection(editText.getText().length());
                 editText.addTextChangedListener(textWatcher);
+                response = validationKey.isValid(getString());
                 break;
             case PASSWORD_VERIFY:
                 // handle verification requirements
@@ -302,32 +345,22 @@ public class AutoValidationEditText extends LinearLayout
                 break;
         }
 
+        if (!isRequired && (getText().length() == 0 || getText() == null))
+        {
+            return true;
+        }
+
         return (response != null && response.isValid);
     }
 
-    public String getFormatted()
+    public String getFormattedForDisplay()
     {
         return format(getString());
     }
 
-    private String format(String raw)
+    public String getFormattedForPost()
     {
-        // todo switch on the input type for proper field formatting
-        return raw;
-    }
-
-
-    private void setErrorVisible(Context context, boolean visible)
-    {
-        errorLayout.setVisibility(visible ? VISIBLE : INVISIBLE);
-        if (visible)
-        {
-            editText.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.error_red), PorterDuff.Mode.SRC_IN);
-        }
-        else
-        {
-            editText.getBackground().clearColorFilter();
-        }
+        return formattingKey.formatForPost(getString());
     }
 
     public String getString()
@@ -340,9 +373,14 @@ public class AutoValidationEditText extends LinearLayout
         return editText.getText();
     }
 
+    private String format(String raw)
+    {
+        return formattingKey.formatForDisplay(raw);
+    }
+
     public void setHint(CharSequence hint)
     {
-        editText.setHint(hint);
+        materialWrapper.setHint(hint);
     }
 
     public void setText(CharSequence text)
@@ -353,5 +391,18 @@ public class AutoValidationEditText extends LinearLayout
     public void setError(CharSequence error)
     {
         errorTextView.setText(error);
+    }
+
+    private void setErrorVisible(Context context, boolean visible)
+    {
+        errorLayout.setVisibility(visible ? VISIBLE : INVISIBLE);
+        if (visible)
+        {
+            editText.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.error_red), PorterDuff.Mode.SRC_IN);
+        }
+        else
+        {
+            editText.getBackground().clearColorFilter();
+        }
     }
 }

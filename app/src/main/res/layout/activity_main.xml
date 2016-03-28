@@ -47,7 +47,8 @@
                 android:layout_marginTop="16dp"
                 custom:error_text="Must be a valid name"
                 custom:hint_text="Last Name"
-                custom:input_type="NAME">
+                custom:input_type="NAME"
+                custom:required="false">
             </com.hart.autovalidation.AutoValidationEditText>
 
             <com.hart.autovalidation.AutoValidationEditText
@@ -72,6 +73,54 @@
                 custom:error_text="Must a valid city, state and zip"
                 custom:hint_text="City, state, and zip"
                 custom:input_type="ADDRESS">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/Country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Must a valid Country"
+                custom:hint_text="Country"
+                custom:input_type="COUNTRY">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/State"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Must a valid State"
+                custom:hint_text="State"
+                custom:input_type="STATE">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/City"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Must a valid City"
+                custom:hint_text="City"
+                custom:input_type="CITY">
+            </com.hart.autovalidation.AutoValidationEditText>
+
+            <com.hart.autovalidation.AutoValidationEditText
+                android:id="@+id/Zip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                custom:error_text="Must a valid Zip Code"
+                custom:hint_text="Zip"
+                custom:input_type="ZIP">
             </com.hart.autovalidation.AutoValidationEditText>
 
             <com.hart.autovalidation.AutoValidationEditText
