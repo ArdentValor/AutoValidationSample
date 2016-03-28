@@ -8,5 +8,5 @@ public class SSNConfig
 {
     public static final int LAST_FOUR = 0;
     public static final int FULL_NUMBER = 1;
-    public int formatConfig = 1;
+    public int formatConfig = 0;
 }

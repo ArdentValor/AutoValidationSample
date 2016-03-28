@@ -26,7 +26,11 @@ public class MainActivity extends Activity
         final AutoValidationEditText social = (AutoValidationEditText) findViewById(R.id.Social);
         final AutoValidationEditText password = (AutoValidationEditText) findViewById(R.id.Password);
         final AutoValidationEditText passwordVerify = (AutoValidationEditText) findViewById(R.id.PasswordVerify);
-        
+        final AutoValidationEditText city = (AutoValidationEditText) findViewById(R.id.City);
+        final AutoValidationEditText state = (AutoValidationEditText) findViewById(R.id.State);
+        final AutoValidationEditText country = (AutoValidationEditText) findViewById(R.id.Country);
+        final AutoValidationEditText zip = (AutoValidationEditText) findViewById(R.id.Zip);
+
 
         Button submit = (Button) findViewById(R.id.SubmitButton);
 
@@ -35,14 +39,33 @@ public class MainActivity extends Activity
             @Override
             public void onClick(View v)
             {
-                boolean allValid = (firstName.isValid()
-                && lastName.isValid()
-                && address1.isValid()
-                && address2.isValid()
-                && phoneNumber.isValid()
-                && social.isValid()
-                && password.isValid()
-                && passwordVerify.isValid());
+                boolean validFirstName = firstName.isValid();
+                boolean validLastName = lastName.isValid();
+                boolean validAddress1 = address1.isValid();
+                boolean validAddress2 = address2.isValid();
+                boolean validPhoneNumber = phoneNumber.isValid();
+                boolean validSocial = social.isValid();
+                boolean validPassword = password.isValid();
+                boolean validVerify = passwordVerify.isValid();
+                boolean validCity = city.isValid();
+                boolean validState = state.isValid();
+                boolean validCountry = country.isValid();
+                boolean validZip = zip.isValid();
+
+
+
+                boolean allValid = (validFirstName
+                && validLastName
+                && validAddress1
+                && validAddress2
+                && validPhoneNumber
+                && validSocial
+                && validPassword
+                && validVerify
+                && validCity
+                && validState
+                && validCountry
+                && validZip);
 
                 String message = (allValid) ? "all fields are valid" : "not all fields are valid";
 

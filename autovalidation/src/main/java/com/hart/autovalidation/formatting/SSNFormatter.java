@@ -19,7 +19,6 @@ public class SSNFormatter extends FormattingKey
             ssnConfig = ConfigManager.getSSNConfig();
         }
 
-
         raw = raw.replace("-", "");
 
         if (ssnConfig.formatConfig == ssnConfig.LAST_FOUR)

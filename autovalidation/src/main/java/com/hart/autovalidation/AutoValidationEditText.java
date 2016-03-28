@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -15,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,7 +48,7 @@ import com.hart.autovalidation.validation.ZipValidation;
  */
 public class AutoValidationEditText extends LinearLayout
 {
-    private EditText editText;
+    private TextInputEditText editText;
     private LinearLayout errorLayout;
     private CheckBox show;
     private TextView errorTextView;
@@ -124,7 +124,7 @@ public class AutoValidationEditText extends LinearLayout
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.auto_validation_edit_text, this, true);
 
-        editText = (EditText) v.findViewById(R.id.edit_text);
+        editText = (TextInputEditText) v.findViewById(R.id.edit_text);
         errorLayout = (LinearLayout) v.findViewById(R.id.layout_error);
         errorTextView = (TextView) v.findViewById(R.id.error_text);
 
@@ -179,13 +179,14 @@ public class AutoValidationEditText extends LinearLayout
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event)
                 {
-                    if (keyCode == KeyEvent.KEYCODE_DEL)
+                    if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_DOWN)
                     {
                         editText.removeTextChangedListener(textWatcher);
-                        String current = editText.getText().toString();
-                        if (current.length() >= 1)
+                        String current = getString();
+                        if (current.length() > 1)
                         {
-                            editText.setText(current.substring(0, current.length() - 1));
+                            current = current.substring(0, current.length() - 1);
+                            editText.setText(current);
                         }
                         else
                         {
@@ -207,7 +208,7 @@ public class AutoValidationEditText extends LinearLayout
                         editText.addTextChangedListener(textWatcher);
                         return true;
                     }
-                    return false;
+                    return true;
                 }
             });
         }
@@ -296,12 +297,12 @@ public class AutoValidationEditText extends LinearLayout
     {
         if (validate(editText.getText().toString()))
         {
-            setErrorVisible(getContext(), true);
+            setErrorVisible(getContext(), false);
             return true;
         }
         else
         {
-            setErrorVisible(getContext(), false);
+            setErrorVisible(getContext(), true);
             return false;
         }
     }
@@ -342,6 +343,7 @@ public class AutoValidationEditText extends LinearLayout
                 editText.setText(formattingKey.formatForDisplay(raw));
                 editText.setSelection(editText.getText().length());
                 editText.addTextChangedListener(textWatcher);
+                response = validationKey.isValid(getString());
                 break;
         }
 
