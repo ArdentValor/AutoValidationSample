@@ -223,7 +223,7 @@ public class AutoValidationEditText extends LinearLayout
                         editText.addTextChangedListener(textWatcher);
                         return true;
                     }
-                    return true;
+                    return false;
                 }
             });
         }
