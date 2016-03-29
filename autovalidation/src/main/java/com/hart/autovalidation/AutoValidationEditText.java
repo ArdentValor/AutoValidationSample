@@ -27,9 +27,11 @@ import com.hart.autovalidation.formatting.FormattingKey;
 import com.hart.autovalidation.formatting.NameFormatter;
 import com.hart.autovalidation.formatting.PasswordFormatter;
 import com.hart.autovalidation.formatting.PhoneNumberFormatter;
+import com.hart.autovalidation.formatting.RelationshipFormatter;
 import com.hart.autovalidation.formatting.SSNFormatter;
 import com.hart.autovalidation.formatting.StateFormatter;
 import com.hart.autovalidation.formatting.ZipFormatter;
+import com.hart.autovalidation.supportutils.GeneralUtils;
 import com.hart.autovalidation.validation.AddressValidation;
 import com.hart.autovalidation.validation.CityValidation;
 import com.hart.autovalidation.validation.CountryValidation;
@@ -37,6 +39,7 @@ import com.hart.autovalidation.validation.EmailValidation;
 import com.hart.autovalidation.validation.NameValidation;
 import com.hart.autovalidation.validation.PasswordValidation;
 import com.hart.autovalidation.validation.PhoneNumberValidation;
+import com.hart.autovalidation.validation.RelationshipValidation;
 import com.hart.autovalidation.validation.SSNValidation;
 import com.hart.autovalidation.validation.StateValidation;
 import com.hart.autovalidation.validation.ValidationKey;
@@ -66,6 +69,7 @@ public class AutoValidationEditText extends LinearLayout
     private static final String STATE = "STATE";
     private static final String ZIP = "ZIP";
     private static final String COUNTRY = "COUNTRY";
+    private static final String RELATIONSHIP = "RELATIONSHIP";
 
     private String inputType;
 
@@ -166,6 +170,17 @@ public class AutoValidationEditText extends LinearLayout
                 if (!hasFocus)
                 {
                     setErrorVisible(context, !isValid());
+                }
+                else if (hasFocus)
+                {
+                    if (inputType.equals(STATE))
+                    {
+                        GeneralUtils.createStatePicker(context, editText, GeneralUtils.EDIT_TEXT).show();
+                    }
+                    else if (inputType.equals(RELATIONSHIP))
+                    {
+                        GeneralUtils.createRelationshipPicker(context, editText, GeneralUtils.EDIT_TEXT).show();
+                    }
                 }
             }
         });
@@ -290,6 +305,11 @@ public class AutoValidationEditText extends LinearLayout
                 validationKey = new CountryValidation();
                 formattingKey = new CountryFormatter();
                 break;
+            case RELATIONSHIP:
+                editText.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+                validationKey = new RelationshipValidation();
+                formattingKey = new RelationshipFormatter();
+                break;
         }
     }
 
@@ -321,6 +341,7 @@ public class AutoValidationEditText extends LinearLayout
             case STATE:
             case EMAIL:
             case ADDRESS:
+            case RELATIONSHIP:
                 // nothing special
                 break;
             case PHONE:

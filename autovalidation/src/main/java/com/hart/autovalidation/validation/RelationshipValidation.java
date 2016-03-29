@@ -4,10 +4,10 @@ import com.hart.autovalidation.ValidationResponse;
 import com.hart.autovalidation.supportutils.GeneralUtils;
 
 /**
- * Created by Alex on 3/28/16.
+ * Created by Alex on 3/29/16.
  * Proprietary (Hart)
  */
-public class StateValidation extends ValidationKey
+public class RelationshipValidation extends ValidationKey
 {
     @Override
     public ValidationResponse isValid(String raw)
@@ -15,9 +15,9 @@ public class StateValidation extends ValidationKey
         ValidationResponse response = new ValidationResponse();
         boolean valid = false;
 
-        for (int i = 0; i < GeneralUtils.STATES_ARRAY.length; i++)
+        for (int i = 0; i < GeneralUtils.RELATIONS_ARRAY.length; i++)
         {
-            if (raw.equals(GeneralUtils.STATES_ARRAY[i]))
+            if (raw.equals(GeneralUtils.RELATIONS_ARRAY[i]))
             {
                 valid = true;
                 break;
@@ -27,12 +27,12 @@ public class StateValidation extends ValidationKey
         if (valid)
         {
             response.isValid = true;
-            response.responses.add("Valid state");
+            response.responses.add("Valid relationship type");
         }
         else
         {
             response.isValid = false;
-            response.responses.add("Invalid state");
+            response.responses.add("Invalid relationship type");
         }
 
         return response;

@@ -1,5 +1,7 @@
 package com.hart.autovalidation.validation;
 
+import android.text.TextUtils;
+
 import com.hart.autovalidation.ValidationResponse;
 
 /**
@@ -11,10 +13,22 @@ public class EmailValidation extends ValidationKey
     @Override
     public ValidationResponse isValid(String raw)
     {
-        // todo : write email validation
         ValidationResponse response = new ValidationResponse();
-        response.isValid = true;
-        response.responses.add("valid email");
-        return null;
+        response.isValid = isValidEmail(raw);
+
+        if (response.isValid)
+        {
+            response.responses.add("Valid Email");
+        }
+        else
+        {
+            response.responses.add("Invalid Email");
+        }
+        return response;
+    }
+
+    public final static boolean isValidEmail(CharSequence target)
+    {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }
