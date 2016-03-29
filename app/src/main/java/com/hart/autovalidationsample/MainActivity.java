@@ -32,6 +32,7 @@ public class MainActivity extends Activity
         final AutoValidationEditText zip = (AutoValidationEditText) findViewById(R.id.Zip);
 
 
+        
         Button submit = (Button) findViewById(R.id.SubmitButton);
 
         submit.setOnClickListener(new View.OnClickListener()
@@ -51,7 +52,6 @@ public class MainActivity extends Activity
                 boolean validState = state.isValid();
                 boolean validCountry = country.isValid();
                 boolean validZip = zip.isValid();
-
 
 
                 boolean allValid = (validFirstName
