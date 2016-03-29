@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.hart.autovalidation.AutoValidationEditText;
+import com.hart.autovalidation.configuration.ConfigManager;
+import com.hart.autovalidation.configuration.SSNConfig;
 
 public class MainActivity extends Activity
 {
@@ -32,9 +34,19 @@ public class MainActivity extends Activity
         final AutoValidationEditText zip = (AutoValidationEditText) findViewById(R.id.Zip);
 
 
-        
-        Button submit = (Button) findViewById(R.id.SubmitButton);
 
+        // using custom configuration for the AutoValidationEditText (Note: not all field types are configurable)
+
+        // the following example changes the configuration for SSN from the default last 4 digits to full number//
+        SSNConfig config = ConfigManager.getSSNConfig(); // get the config
+        config.formatConfig = SSNConfig.FULL_NUMBER; // set the desired flags
+        ConfigManager.setSSNConfig(config); // reset it in the config manager
+        // any configuration that deviates from the default must be set in this way before fields are accessed
+
+
+
+
+        Button submit = (Button) findViewById(R.id.SubmitButton);
         submit.setOnClickListener(new View.OnClickListener()
         {
             @Override

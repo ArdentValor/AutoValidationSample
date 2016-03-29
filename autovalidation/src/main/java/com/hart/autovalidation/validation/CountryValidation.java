@@ -12,6 +12,16 @@ public class CountryValidation extends ValidationKey
     public ValidationResponse isValid(String raw)
     {
         ValidationResponse response = new ValidationResponse();
+        if (raw != null && raw.length() > 0)
+        {
+            response.isValid = true;
+            response.responses.add("valid country");
+        }
+        else
+        {
+            response.isValid = false;
+            response.responses.add("invalid country");
+        }
         return response;
     }
 }
