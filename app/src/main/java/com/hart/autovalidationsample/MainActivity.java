@@ -32,7 +32,7 @@ public class MainActivity extends Activity
         final AutoValidationEditText state = (AutoValidationEditText) findViewById(R.id.State);
         final AutoValidationEditText country = (AutoValidationEditText) findViewById(R.id.Country);
         final AutoValidationEditText zip = (AutoValidationEditText) findViewById(R.id.Zip);
-
+        final AutoValidationEditText relation = (AutoValidationEditText) findViewById(R.id.Relationship);
 
 
         // using custom configuration for the AutoValidationEditText (Note: not all field types are configurable)
@@ -42,8 +42,6 @@ public class MainActivity extends Activity
         config.formatConfig = SSNConfig.FULL_NUMBER; // set the desired flags
         ConfigManager.setSSNConfig(config); // reset it in the config manager
         // any configuration that deviates from the default must be set in this way before fields are accessed
-
-
 
 
         Button submit = (Button) findViewById(R.id.SubmitButton);
@@ -64,20 +62,22 @@ public class MainActivity extends Activity
                 boolean validState = state.isValid();
                 boolean validCountry = country.isValid();
                 boolean validZip = zip.isValid();
+                boolean relationship = relation.isValid();
 
 
                 boolean allValid = (validFirstName
-                && validLastName
-                && validAddress1
-                && validAddress2
-                && validPhoneNumber
-                && validSocial
-                && validPassword
-                && validVerify
-                && validCity
-                && validState
-                && validCountry
-                && validZip);
+                        && validLastName
+                        && validAddress1
+                        && validAddress2
+                        && validPhoneNumber
+                        && validSocial
+                        && validPassword
+                        && validVerify
+                        && validCity
+                        && validState
+                        && validCountry
+                        && validZip
+                        && relationship);
 
                 String message = (allValid) ? "all fields are valid" : "not all fields are valid";
 
