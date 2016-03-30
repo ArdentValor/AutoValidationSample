@@ -73,7 +73,7 @@ public class PhoneNumberFormatter extends FormattingKey
         return result;
     }
 
-    public static boolean isValidInt(String n)
+    public boolean isValidInt(String n)
     {
         try
         {

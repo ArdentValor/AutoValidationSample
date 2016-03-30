@@ -13,7 +13,7 @@ public class ZipValidation extends ValidationKey
     {
         ValidationResponse response = new ValidationResponse();
 
-        if (raw != null && raw.length() == 5)
+        if (raw != null && raw.length() == 5 && isValidInt(raw))
         {
             response.isValid = true;
             response.responses.add("valid zip");
@@ -24,5 +24,18 @@ public class ZipValidation extends ValidationKey
             response.responses.add("invalid zip");
         }
         return response;
+    }
+
+    public boolean isValidInt(String n)
+    {
+        try
+        {
+            Long.parseLong(n);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
     }
 }

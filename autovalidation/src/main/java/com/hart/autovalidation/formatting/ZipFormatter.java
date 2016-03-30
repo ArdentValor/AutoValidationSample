@@ -9,6 +9,10 @@ public class ZipFormatter extends FormattingKey
     @Override
     public String formatForDisplay(String raw)
     {
+        if (raw.length() >= 5)
+        {
+            raw = raw.substring(0, 5);
+        }
         return raw;
     }
 

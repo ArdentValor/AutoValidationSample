@@ -185,47 +185,6 @@ public class AutoValidationEditText extends LinearLayout
         });
 
         editText.addTextChangedListener(textWatcher);
-
-//        if (inputType.equals(PHONE) || inputType.equals(SSN))
-//        {
-//            editText.setOnKeyListener(new OnKeyListener()
-//            {
-//                @Override
-//                public boolean onKey(View v, int keyCode, KeyEvent event)
-//                {
-//                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN)
-//                    {
-//                        editText.removeTextChangedListener(textWatcher);
-//                        String current = getString();
-//                        if (current.length() > 1)
-//                        {
-//                            current = current.substring(0, current.length() - 1);
-//                            editText.setText(current);
-//                        }
-//                        else
-//                        {
-//                            editText.setText("");
-//                        }
-//
-//                        ValidationResponse response = validationKey.isValid(getString());
-//
-//                        if (response.isValid)
-//                        {
-//                            setErrorVisible(getContext(), false);
-//                        }
-//                        else
-//                        {
-//                            setErrorVisible(getContext(), true);
-//                        }
-//
-//                        editText.setSelection(editText.getText().length());
-//                        editText.addTextChangedListener(textWatcher);
-//                        return true;
-//                    }
-//                    return false;
-//                }
-//            });
-//        }
     }
 
     private TextWatcher textWatcher = new TextWatcher()
@@ -336,20 +295,11 @@ public class AutoValidationEditText extends LinearLayout
             case PASSWORD:
             case CITY:
             case COUNTRY:
-            case ZIP:
             case STATE:
             case EMAIL:
             case ADDRESS:
             case RELATIONSHIP:
                 // nothing special
-                break;
-            case PHONE:
-                // handle formatting requirements
-                editText.removeTextChangedListener(textWatcher);
-                editText.setText(formattingKey.formatForDisplay(raw));
-                editText.setSelection(editText.getText().length());
-                editText.addTextChangedListener(textWatcher);
-                response = validationKey.isValid(getString());
                 break;
             case PASSWORD_VERIFY:
                 // handle verification requirements
@@ -357,6 +307,8 @@ public class AutoValidationEditText extends LinearLayout
                 String actual = getString();
                 response.isValid = expected.equals(actual);
                 break;
+            case PHONE:
+            case ZIP:
             case SSN:
                 // handle formatting requirements
                 editText.removeTextChangedListener(textWatcher);
