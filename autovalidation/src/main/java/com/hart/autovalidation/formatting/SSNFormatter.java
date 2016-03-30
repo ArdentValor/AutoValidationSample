@@ -30,13 +30,9 @@ public class SSNFormatter extends FormattingKey
         }
         else if (ssnConfig.formatConfig == ssnConfig.FULL_NUMBER)
         {
-            if (raw.length() < 3)
+            if (raw.length() <= 3)
             {
                 // do nothing
-            }
-            else if (raw.length() == 3)
-            {
-                raw += "-";
             }
             else if (raw.length() == 4)
             {
@@ -44,7 +40,7 @@ public class SSNFormatter extends FormattingKey
             }
             else if (raw.length() == 5)
             {
-                raw = raw.substring(0, 3) + "-" + raw.substring(3) + "-";
+                raw = raw.substring(0, 3) + "-" + raw.substring(3);
             }
             else if (raw.length() > 5)
             {

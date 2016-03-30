@@ -14,6 +14,11 @@ public class PhoneNumberFormatter extends FormattingKey
             return "";
         }
 
+        if (number.equals("1 (") || number.equals("1 "))
+        {
+            return "1";
+        }
+
         boolean leadingOne = number.substring(0, 1).equals("1");
         number = (leadingOne) ? number.substring(1) : number;
 
@@ -25,7 +30,8 @@ public class PhoneNumberFormatter extends FormattingKey
             result += raw[i];
         }
 
-        if (raw.length >= 4)
+
+        if (raw.length >= 5)
         {
             result += ") ";
         }
@@ -35,7 +41,7 @@ public class PhoneNumberFormatter extends FormattingKey
             result += raw[i];
         }
 
-        if (raw.length >= 7)
+        if (raw.length >= 8)
         {
             result += "-";
         }
@@ -59,7 +65,7 @@ public class PhoneNumberFormatter extends FormattingKey
         String result = "";
         for (int i = 0; i < split.length; i++)
         {
-            if (isValidInt(split[i]))
+            if (isValidInt(split[i]) && split[i].length() > 0)
             {
                 result += split[i];
             }

@@ -11,7 +11,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -187,46 +186,46 @@ public class AutoValidationEditText extends LinearLayout
 
         editText.addTextChangedListener(textWatcher);
 
-        if (inputType.equals(PHONE) || inputType.equals(SSN))
-        {
-            editText.setOnKeyListener(new OnKeyListener()
-            {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event)
-                {
-                    if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_DOWN)
-                    {
-                        editText.removeTextChangedListener(textWatcher);
-                        String current = getString();
-                        if (current.length() > 1)
-                        {
-                            current = current.substring(0, current.length() - 1);
-                            editText.setText(current);
-                        }
-                        else
-                        {
-                            editText.setText("");
-                        }
-
-                        ValidationResponse response = validationKey.isValid(getString());
-
-                        if (response.isValid)
-                        {
-                            setErrorVisible(getContext(), false);
-                        }
-                        else
-                        {
-                            setErrorVisible(getContext(), true);
-                        }
-
-                        editText.setSelection(editText.getText().length());
-                        editText.addTextChangedListener(textWatcher);
-                        return true;
-                    }
-                    return false;
-                }
-            });
-        }
+//        if (inputType.equals(PHONE) || inputType.equals(SSN))
+//        {
+//            editText.setOnKeyListener(new OnKeyListener()
+//            {
+//                @Override
+//                public boolean onKey(View v, int keyCode, KeyEvent event)
+//                {
+//                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN)
+//                    {
+//                        editText.removeTextChangedListener(textWatcher);
+//                        String current = getString();
+//                        if (current.length() > 1)
+//                        {
+//                            current = current.substring(0, current.length() - 1);
+//                            editText.setText(current);
+//                        }
+//                        else
+//                        {
+//                            editText.setText("");
+//                        }
+//
+//                        ValidationResponse response = validationKey.isValid(getString());
+//
+//                        if (response.isValid)
+//                        {
+//                            setErrorVisible(getContext(), false);
+//                        }
+//                        else
+//                        {
+//                            setErrorVisible(getContext(), true);
+//                        }
+//
+//                        editText.setSelection(editText.getText().length());
+//                        editText.addTextChangedListener(textWatcher);
+//                        return true;
+//                    }
+//                    return false;
+//                }
+//            });
+//        }
     }
 
     private TextWatcher textWatcher = new TextWatcher()
