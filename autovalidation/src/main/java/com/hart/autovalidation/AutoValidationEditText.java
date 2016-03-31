@@ -377,6 +377,8 @@ public class AutoValidationEditText extends LinearLayout
         else
         {
             editText.getBackground().clearColorFilter();
+            editText.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
+            //editText.getBackground().clearColorFilter();
         }
     }
 }
