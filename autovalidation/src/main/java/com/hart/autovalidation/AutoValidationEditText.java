@@ -213,12 +213,12 @@ public class AutoValidationEditText extends LinearLayout
         switch (type)
         {
             case NAME:
-                editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+                editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
                 validationKey = new NameValidation();
                 formattingKey = new NameFormatter();
                 break;
             case ADDRESS:
-                editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+                editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
                 validationKey = new AddressValidation();
                 formattingKey = new AddressFormatter();
                 break;
@@ -259,7 +259,7 @@ public class AutoValidationEditText extends LinearLayout
                 formattingKey = new ZipFormatter();
                 break;
             case COUNTRY:
-                editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+                editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
                 validationKey = new CountryValidation();
                 formattingKey = new CountryFormatter();
                 break;
