@@ -19,6 +19,11 @@ public class NameFormatter extends FormattingKey
             nameConfig = ConfigManager.getNameConfig();
         }
 
+        if (raw == null || raw.length() == 0)
+        {
+            return "";
+        }
+
         switch (nameConfig.formatRule)
         {
             case NameConfig.FORMAT_RULE_ALL_CAPS:
@@ -37,6 +42,11 @@ public class NameFormatter extends FormattingKey
     @Override
     public String formatForPost(String raw)
     {
+        if (raw == null || raw.length() == 0)
+        {
+            return "";
+        }
+
         return formatForDisplay(raw);
     }
 }

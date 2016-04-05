@@ -9,12 +9,22 @@ public class CityFormatter extends FormattingKey
     @Override
     public String formatForDisplay(String raw)
     {
+        if (raw == null || raw.length() == 0)
+        {
+            return "";
+        }
+
         return raw;
     }
 
     @Override
     public String formatForPost(String raw)
     {
+        if (raw == null || raw.length() == 0)
+        {
+            return "";
+        }
+
         return raw;
     }
 }
