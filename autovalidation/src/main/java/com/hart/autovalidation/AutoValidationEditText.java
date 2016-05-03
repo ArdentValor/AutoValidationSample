@@ -78,6 +78,12 @@ public class AutoValidationEditText extends LinearLayout
 
     private boolean isRequired;
 
+    FocusListener focusListener;
+
+    public void setFocusListener(FocusListener listener) {
+        this.focusListener = listener;
+    }
+
     public AutoValidationEditText(final Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -166,6 +172,10 @@ public class AutoValidationEditText extends LinearLayout
             @Override
             public void onFocusChange(View v, boolean hasFocus)
             {
+                if(focusListener != null) {
+                    focusListener.onFocusedItem(v, hasFocus);
+                }
+
                 if (!hasFocus)
                 {
                     setErrorVisible(context, !isValid());
@@ -380,5 +390,9 @@ public class AutoValidationEditText extends LinearLayout
             editText.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
             //editText.getBackground().clearColorFilter();
         }
+    }
+
+    public interface FocusListener {
+        void onFocusedItem(View view, boolean hasFocus);
     }
 }
