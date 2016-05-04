@@ -76,7 +76,7 @@ public class AutoValidationEditText extends LinearLayout
     private FormattingKey formattingKey;
     private TextInputLayout materialWrapper;
 
-    private boolean isRequired;
+    private boolean isRequired, showPasswordCheckbox;
 
     FocusListener focusListener;
 
@@ -94,35 +94,31 @@ public class AutoValidationEditText extends LinearLayout
         inputType = a.getString(R.styleable.AutoValidationEditText_input_type);
         final int ref = a.getResourceId(R.styleable.AutoValidationEditText_verify_link, 0);
         isRequired = a.getBoolean(R.styleable.AutoValidationEditText_required, true);
+        showPasswordCheckbox = a.getBoolean(R.styleable.AutoValidationEditText_show_password_checkbox, false);
 
         a.recycle();
 
         if (inputType.equals(PASSWORD_VERIFY))
         {
             // use delayed runnable to avoid null pointer caused by inflation time
-            postDelayed(new Runnable()
-            {
+            postDelayed(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     verifyLink = (AutoValidationEditText) ((Activity) context).findViewById(ref);
-                    verifyLink.show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-                    {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-                        {
-                            if (isChecked)
-                            {
-                                editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                                verifyLink.editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    if(showPasswordCheckbox) {
+                        verifyLink.show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                if (isChecked) {
+                                    editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                                    verifyLink.editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                                } else {
+                                    editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                    verifyLink.editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                }
                             }
-                            else
-                            {
-                                editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                                verifyLink.editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                            }
-                        }
-                    });
+                        });
+                    }
                     // todo consider using an interface to handle events between the two password field objects
                 }
             }, 40);
@@ -144,23 +140,20 @@ public class AutoValidationEditText extends LinearLayout
 
         if (inputType.equals(PASSWORD))
         {
-            show = (CheckBox) findViewById(R.id.show_cb);
-            show.setVisibility(VISIBLE);
-            show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-            {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-                {
-                    if (isChecked)
-                    {
-                        editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            if(showPasswordCheckbox) {
+                show = (CheckBox) findViewById(R.id.show_cb);
+                show.setVisibility(VISIBLE);
+                show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                        } else {
+                            editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        }
                     }
-                    else
-                    {
-                        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    }
-                }
-            });
+                });
+            }
         }
 
         initializeInputAndKeys(inputType);

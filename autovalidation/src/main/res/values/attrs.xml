@@ -6,5 +6,6 @@
         <attr name="input_type" format="string" />
         <attr name="verify_link" format="reference"/>
         <attr name="required" format="boolean"/>
+        <attr name="show_password_checkbox" format="boolean"/>
     </declare-styleable>
 </resources>
