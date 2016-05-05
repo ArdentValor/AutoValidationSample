@@ -7,5 +7,6 @@
         <attr name="verify_link" format="reference"/>
         <attr name="required" format="boolean"/>
         <attr name="show_password_checkbox" format="boolean"/>
+        <attr name="imeOptions" format="string"/>
     </declare-styleable>
 </resources>

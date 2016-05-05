@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -77,6 +78,7 @@ public class AutoValidationEditText extends LinearLayout
     private TextInputLayout materialWrapper;
 
     private boolean isRequired, showPasswordCheckbox;
+    private String imeOptions = "";
 
     FocusListener focusListener;
 
@@ -95,6 +97,7 @@ public class AutoValidationEditText extends LinearLayout
         final int ref = a.getResourceId(R.styleable.AutoValidationEditText_verify_link, 0);
         isRequired = a.getBoolean(R.styleable.AutoValidationEditText_required, true);
         showPasswordCheckbox = a.getBoolean(R.styleable.AutoValidationEditText_show_password_checkbox, false);
+        imeOptions = a.getString(R.styleable.AutoValidationEditText_imeOptions);
 
         a.recycle();
 
@@ -136,7 +139,7 @@ public class AutoValidationEditText extends LinearLayout
         materialWrapper = (TextInputLayout) findViewById(R.id.text_input_layout);
 
         setHint(hintText);
-
+        setupImeOptions(imeOptions);
 
         if (inputType.equals(PASSWORD))
         {
@@ -383,6 +386,18 @@ public class AutoValidationEditText extends LinearLayout
             editText.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
             //editText.getBackground().clearColorFilter();
         }
+    }
+
+    private void setupImeOptions(String imeOptions) {
+        if(imeOptions != null) {
+            if (imeOptions.equalsIgnoreCase("actionGo")) {
+                editText.setImeOptions(EditorInfo.IME_ACTION_GO);
+            }
+        }
+    }
+
+    public TextInputEditText getEditText() {
+        return this.editText;
     }
 
     public interface FocusListener {
