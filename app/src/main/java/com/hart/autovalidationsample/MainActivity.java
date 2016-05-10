@@ -3,8 +3,11 @@ package com.hart.autovalidationsample;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.hart.autovalidation.AutoValidationEditText;
 import com.hart.autovalidation.configuration.ConfigManager;
@@ -85,4 +88,5 @@ public class MainActivity extends Activity
             }
         });
     }
+
 }

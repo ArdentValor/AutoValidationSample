@@ -60,7 +60,8 @@
                 android:layout_marginTop="16dp"
                 custom:error_text="Must be a valid street address"
                 custom:hint_text="Street Address"
-                custom:input_type="ADDRESS">
+                custom:input_type="ADDRESS"
+                custom:imeOptions="actionGo">
             </com.hart.autovalidation.AutoValidationEditText>
 
             <com.hart.autovalidation.AutoValidationEditText
